@@ -1,0 +1,71 @@
+def get_name():
+    return input('Введите ФИО: ')
+ 
+def find_name(firm_data):
+    name = get_name()
+    if name in firm_data:
+        return name
+    print('Сотрудник не найден.')
+ 
+def get_data():
+    phone = input('Введите телефон: ')
+    email = input('Введите email: ')
+    position = input('Введите название должности: ')
+    room = input('Введите номер кабинета: ')
+    skype = input('Введите skype: ')
+    return {
+        'Телефон': phone,
+        'Email': email,
+        'Должность': position,
+        'Кабинет': room,
+        'Skype': skype
+    }
+ 
+def add_inform(firm_data):
+    name = get_name()
+    data = get_data()
+    firm_data[name] = data
+ 
+def del_inform(firm_data):
+    name = find_name(firm_data)
+    if name:
+        del firm_data[name]
+ 
+def find_inform(firm_data):
+    name = find_name(firm_data)
+    if name:
+        return firm_data[name]
+ 
+def replace_inform(firm_data):
+    name = find_name(firm_data)
+    if name:
+        firm_data[name] = get_data()
+ 
+def choosing_an_action():
+    d = {
+        1: ('Добавить информацию о сотруднике', add_inform),
+        2: ('Удалить информацию о сотруднике', del_inform),
+        3: ('Найти информацию о сотруднике', find_inform),
+        4: ('Заменить информацию о сотруднике', replace_inform),
+        5: ('Выйти из программы', exit)
+    }
+    for k,v in d.items():
+        print(f'{k}. {v[0]}')
+ 
+    k = int(input('Выберите действие: '))
+    print(f'Выбрано действие {d[k][0].upper()}')
+    return d[k][1]
+ 
+firm_data = {}
+while True:
+    print()
+    action = choosing_an_action()
+    if action == exit:
+        exit(0)
+    res = action(firm_data)
+    print()
+    if res:
+        print(res)
+    else:
+        print(firm_data)
+    print()
